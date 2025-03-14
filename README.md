@@ -24,3 +24,4 @@ sophon-demo项目
 * [运行yolov5 bmodel模型指导](./run_yolov5_bmodel_guide.md)
 * [编译Qwen及DeepSeek-R1蒸馏bmodel模型指导](/build_qwen_bmodel_guide.md)
 * [运行Qwen及DeepSeek-R1蒸馏bmodel模型指导](./run_qwen_bmodel_guide.md)
+* [运行Qwen及DeepSeek-R1蒸馏bmodel模型CPP例程指导](./run_qwen_bmodel_cpp_guild.md)

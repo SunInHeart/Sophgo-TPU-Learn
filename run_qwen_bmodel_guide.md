@@ -4,6 +4,31 @@
 
 ## 环境准备
 
+### 准备模型
+
+**使用提供的模型：**
+
+​本例程在`scripts`目录下提供了下载脚本`download.sh`
+
+```bash
+# qwen 1684x
+./scripts/download.sh qwen
+# qwen1.5 1684x
+./scripts/download.sh qwen1.5
+# qwen2 1684x
+./scripts/download.sh qwen2
+# qwen2.5 1684x
+./scripts/download.sh qwen2.5
+# deepseek-r1-distill-qwen2
+./scripts/download.sh deepseek-r1-distill-qwen2
+```
+
+**自行编译模型：**
+
+参考：[Qwen模型导出与编译](./build_qwen_bmodel_guide.md)
+
+### 安装依赖
+
 创建虚拟环境
 
 ```sh
@@ -11,7 +36,7 @@ python -m venv --system-site-packages venv
 source venv/bin/activate
 ```
 
-### 安装依赖
+然后安装依赖
 
 ```sh
 pip3 install -r python/requirements.txt
@@ -25,9 +50,7 @@ pillow和pyarrow两个软件包安装失败，这是streamlit安装时依赖的�
 
 >注：streamlit安装失败，不影响后续命令行推理方式，但Web demo无法使用
 
-解决：
-
-需要指定安装arrow 19.0.0版本
+解决：指定安装arrow 19.0.0版本
 
 ```sh
 wget https://github.com/apache/arrow/archive/refs/tags/apache-arrow-19.0.0.tar.gz
@@ -55,7 +78,7 @@ pillow可通过预构建的轮子来安装
 另外需要安装sophon-sail，由于本例程需要的sophon-sail版本较新，相关功能还未发布，这里暂时提供一个可用的sophon-sail源码，x86/arm/riscv PCIe环境可以通过下面的命令下载：
 
 ```sh
-pip3 install dfss --upgrade #安装dfss依赖
+pip3 install dfss --upgrade # 安装dfss依赖
 python3 -m dfss --url=open@sophgo.com:sophon-demo/Qwen/sophon-sail.tar.gz
 tar xvf sophon-sail.tar.gz
 ```
@@ -96,6 +119,18 @@ python3 qwen.py --config ./config/qwen.yaml
 >用户应根据需要自己选择或创建相应的配置文件，并正确填写配置文件中的参数(以下为特殊事例)。
 如果要加载deepseek-r1-distill-qwen2模型(BM1684X)，那么请将--config参数修改为 ./config/deepseek-r1-distill-qwen2.yaml
 
+qwen1.5-7b_int4_seq512_1dev.bmodel 运行结果：
+
+![Image](./assets/qwen1.5-7b_run_results.png)
+
+每秒token数约为7.1
+
+deepseek-r1-distill-qwen2-1.5b_w4bf16_seq8192.bmodel 运行结果：
+
+![Image](./assets/deepseek-r1-distill-qwen2-1.5b_run_result.png)
+
+每秒token数约为13.9
+
 ## Web Demo
 
 提供了基于streamlit的web demo。
@@ -128,7 +163,7 @@ cd python
 python3 -m streamlit run web_demo.py -- --config=./config/web.yaml
 ```
 
-首次运行需要输入邮箱，输入邮箱后命令行输出以下信息则表示启动成功
+首次运行需要输入邮箱，输入邮箱后命令行输出以下信息则表示启动成功（**Note:** 直接运行成功，并未发现要输入邮箱）
 
 ```sh
 You can now view your Streamlit app in your browser.
@@ -140,15 +175,13 @@ External URL: http://183.47.95.48:8501 # 不可用
 
 在浏览器中打开输出的地址即可使用，web页面如下，在底部对话框中输入问题。
 
-输入问题后，出现问题
+输入问题内容后，出现问题：
 
 ![Image](./assets/open_libarrow_dataset.so.1900_issue.png)
 
 这个错误表明 Python 在尝试加载 libarrow_dataset.so.1900 共享库时失败
 
-解决：
-
-确认文件是否存在
+解决：确认文件是否存在
 
 ```sh
 [root@openeuler-riscv64 ~]# find / -name "libarrow_dataset.so.1900" 2>/dev/null
@@ -171,6 +204,16 @@ source ~/.bashrc
 
 重新运行Web demo问题解决
 
+Web界面
+
+![Image](./assets/web_demo_qwen2.5-1.5b_results.png)
+
+每秒token数约为17.5
+
+![Image](./assets/web_demo_deepseek-r1-distill-qwen2-1.5b_result.png)
+
+每秒token数约为13.4
+
 ## Openai API接口服务
 
 基于openai api 接口server。
@@ -183,7 +226,7 @@ api.yaml内容如下
 
 ```yaml
 models:                 ## 模型列表
-  - name: qwen1.5      ## 模型名称，用于匹配模型
+  - name: qwen1.5       ## 模型名称，用于匹配模型
     bmodel_path: ../models/BM1684X/qwen1.5-7b_int4_seq512_1dev.bmodel ## 用于推理的bmodel路径
     token_path: ./token_config ## tokenizer目录路径
     dev_id: 0  ## 用于推理的tpu设备id
@@ -211,6 +254,14 @@ python3 openai_api_server.py --config ./config/api.yaml
 ```sh
 python3 openai_api_request.py
 ```
+
+Qwen2.5-1.5b 运行结果
+
+![Image](./assets/api_qwen2.5-1.5b_result.png)
+
+deepseek-r1-distill-qwen2-1.5b 运行结果
+
+![Image](./assets/api_deepseek-r1-distill-qwen2-1.5b_result.png)
 
 ## 参考资料
 
