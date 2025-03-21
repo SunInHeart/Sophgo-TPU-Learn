@@ -1,13 +1,13 @@
 # 编译Qwen bmodel
 
-目标：利用导出的onnx模型使用TPU-MLIR编译得到Qwen bmodel
+目标：导出onnx模型并使用TPU-MLIR编译得到Qwen bmodel
 
 ## 环境说明
 
 * x86主机docker镜像中进行
 * AI编译器：TPU-MLIR
-* 内存：40G以上
-* 存储：100G以上
+* 内存占用：48G以上（推荐64GB）
+* 存储需求：100G以上
 
 ## 操作步骤
 
@@ -37,15 +37,21 @@ cd /workspace/sophon-demo/sample/Qwen
 
 注：
 
-* Qwen1.5-1.8B官方库50G左右，在下载之前，要确认自己有huggingface官网的access token或者SSH key。
-* Qwen1.5-7B官方库50G左右，在下载之前，要确认自己有huggingface官网的access token或者SSH key。
-* Deepseek-R1-Distill-Qwen-1.5B官方库50G左右，在下载之前，要确认自己有huggingface官网的access token或者SSH key。
-* Deepseek-R1-Distill-Qwen-7B官方库50G左右，在下载之前，要确认自己有huggingface官网的access token或者SSH key。
+* Qwen1.5-1.8B官方库3.7G左右
+* Qwen1.5-7B官方库15G左右
+* Qwen2.5-7B官方库15G左右
+* Deepseek-R1-Distill-Qwen-1.5B官方库3.5G左右
+* Deepseek-R1-Distill-Qwen-7B官方库15G左右
+
+>由仓库config.json文件发现数据类型dtype为bfloat16，也能明白为什么模型占用存储与模型参数量大致为两倍关系
+
+在下载之前，要确认自己有huggingface官网的access token或者SSH key。
 
 ```sh
 git lfs install
 git clone https://huggingface.co/Qwen/Qwen1.5-7B-Chat
 git clone https://huggingface.co/Qwen/Qwen1.5-1.8B-Chat
+git clone https://huggingface.co/Qwen/Qwen2.5-7B-Instruct
 git clone https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
 git clone https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
 ```

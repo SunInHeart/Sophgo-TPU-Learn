@@ -1,6 +1,6 @@
 # 运行SOPHON-DEMO中的Qwen模型推理
 
-目标：在sg2042+TPU环境下运行Qwen和deepseek-r1量化模型推理
+目标：在sg2042+TPU环境下运行Qwen和deepseek-r1蒸馏Qwen量化模型推理
 
 ## 环境准备
 
