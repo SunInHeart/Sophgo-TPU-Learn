@@ -18,7 +18,7 @@ LLM-TPU项目
 * [运行llama3.1 bmodel模型指导](./run_llama3.1_bmodel_guide.md)
 * [运行DeepSeek-R1蒸馏模型14b版本双芯bmodel指导](./run_deepseek-r1-distill-qwen-14b-2dev_bmodel_guide.md)
 * [运行DeepSeek-R1蒸馏模型32b版本双芯bmodel指导](./run_deepseek-r1-distill-qwen-32b-2dev_bmodel_guide.md)
-* [编译DeepSeek-R1蒸馏模型32b版本双芯bmodel指导](./build_deepseek-r1-distill-qwen-32b-2dev_bmodel_guide.md)
+* [编译运行DeepSeek-R1蒸馏模型32b版本双芯bmodel指导](./build_run_deepseek-r1-distill-qwen-32b-2dev_bmodel_guide.md)
 
 sophon-demo项目
 

@@ -4,6 +4,7 @@
 
 ## 环境说明
 
+* CPU: sg2042
 * TPU: riscv pcie mode
 * SDK: v24.04.01
 
@@ -124,13 +125,26 @@ deepseek-r1-distill-qwen-32b 双芯bmodel 运行结果：
 
 加载模型时TPU的两个芯片内存占用不断提升到9GB左右，加载完成后出现问题，表明当前设备完全可以运行32b 1024序列长度双芯模型，只是导出的模型和运行推理代码有兼容性问题
 
-使用上述编译得到的模型，移除其中的.bmodel与embedding.bin文件，将 [编译deepseek-r1 32b 双芯模型](./build_deepseek-r1-distill-qwen-32b-2dev_bmodel_guide.md) 编译到的模型复制到该目录下
+使用上述编译得到的模型，移除其中的.bmodel与embedding.bin文件，将 [编译deepseek-r1 32b 双芯模型](./build_run_deepseek-r1-distill-qwen-32b-2dev_bmodel_guide.md#编译bmodel) 编译到的模型复制到该目录下
 
 ```sh
 cd deepseek-r1-distill-qwen-32b-1024-2dev/
 rm -f qwen2_w4bf16_seq1024_bm1684x_20250320_140126.bmodel embedding.bin
 cp /path/to/deepseek-r1-32b_int4_seq1024_2dev.bmodel .
 cd ..
+```
+
+查看当前模型目录结构
+
+```sh
+[root@openeuler-riscv64 parallel_demo]# tree deepseek-r1-distill-qwen-32b-1024-2dev/
+deepseek-r1-distill-qwen-32b-1024-2dev/
+├── config.json
+├── deepseek-r1-32b_int4_seq1024_2dev.bmodel
+└── tokenizer
+    ├── special_tokens_map.json
+    ├── tokenizer.json
+    └── tokenizer_config.json
 ```
 
 再次运行
@@ -143,7 +157,7 @@ TPU内存占用情况
 
 **推理性能**：
 
-TPS：双芯约 3.15 tokens/s
+TPS：双芯约 3.15 token/s
 
 ## 参考资料
 

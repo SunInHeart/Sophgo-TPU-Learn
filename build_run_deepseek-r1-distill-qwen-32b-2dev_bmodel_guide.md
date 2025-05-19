@@ -4,10 +4,17 @@
 
 ## 环境说明
 
+模型导出环境：
+
 * x86主机docker容器中进行
 * TPU-MLIR: v1.14.beta.0
 * 内存占用：200GB以上（推荐256GB）
-* 存储需求：700GB以上（默认）
+* 存储需求：700GB以上（默认，修改后需280GB）
+
+运行环境：
+
+* SG2042 + TPU
+* openEuler riscv
 
 ## 操作步骤
 
@@ -144,10 +151,10 @@ python pipeline.py --model_path ./deepseek-r1-32b_int4_seq8192_2dev.bmodel --tok
 
 ![Image](./assets/deepseek-r1-32b-2dev_run_fail_oom.png)
 
-尝试将序列长度降低到1024重新编译生成模型后，再次运行发现能够运行成功但是会一直重复，需要替换token_config，使用 [编译运行deepseek-r1-32b双芯模型](./build_run_deepseek-r1-distill-qwen-32b_bmodel_guide.md) 模型导出方式产生的tokenizer目录可正常运行
+尝试将序列长度降低到1024重新编译生成模型后，再次运行发现能够运行成功但是会一直重复生成，需要替换token_config，使用 [编译运行deepseek-r1-32b双芯模型](./build_run_deepseek-r1-distill-qwen-32b_bmodel_guide.md#双芯模型) 编译双芯模型方式所产生的tokenizer目录可正常运行
 
 ```sh
-python pipeline.py --model_path ./deepseek-r1-32b_int4_seq8192_2dev.bmodel --tokenizer_path ./tokenizer/ --devid 0,1
+python pipeline.py --model_path ./deepseek-r1-32b_int4_seq1024_2dev.bmodel --tokenizer_path ./tokenizer/ --devid 0,1
 ```
 
 运行结果
